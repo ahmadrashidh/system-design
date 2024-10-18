@@ -85,8 +85,6 @@ method defined `synchronised` can only be called by one thread at a time on a sa
 
 ### HashMap
 
-`Goldmansachs`
-
 | HashMap         | HashTable          | Concurrent HashMap          |
 |-----------------|--------------------|-----------------------------|
 | Not thread safe | Thread safe        | Thread safe                 |
@@ -103,21 +101,19 @@ method defined `synchronised` can only be called by one thread at a time on a sa
 ## Producer-Consumer Problem (by Djikstra)
 > Synchronisation of products and consumers
 
-- Example of multiple units simultaneously produce products and add it to limited-spaced belt. At the same time, multiple  consumers consume the products in the belt. Belt here is `Bounded Buffer`
+Example of multiple units simultaneously produce products and add it to limited-spaced belt. At the same time, multiple  consumers consume the products in the belt. Belt here is `Bounded Buffer`
 
 **Problem**: Multiple consumer threads race for product when product in belt is less/empty known as 'underflow'. Other multiple units keep producing when products overflows in belt
 
+**Solution**
+To allow number of threads as number of products in the belt to access to belt. 
 
-**Semaphore** - how many threads can access the shared resource. So mutex is `Semaphaore` of 1.
-
-
-### Using Semaphore
-
-`Lock.lock()` -> `Semaphore.acquire()`
-`Lock.unlock()` -> `Semaphore.release()`
+`Semaphore` - maximum number of threads can access the shared resource. So mutex is Semaphore of 1 thread.
 
 
 
+## Atomic Datatype
+> provide methods that do atomic operations (synchronized)
 
-## Atomic Datatypes
+`getAndAdd()`, `getAndIncrease`, `getAndDecrease`
 
