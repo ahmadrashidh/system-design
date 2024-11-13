@@ -111,9 +111,21 @@ To allow number of threads as number of products in the belt to access to belt.
 `Semaphore` - maximum number of threads can access the shared resource. So mutex is Semaphore of 1 thread.
 
 
-
 ## Atomic Datatype
 > provide methods that do atomic operations (synchronized)
 
 `getAndAdd()`, `getAndIncrease`, `getAndDecrease`
+
+- x+=i looks like atomic operation but its synctatic sugar underneath which actual operation is going one.
+
+## Contention
+> When multiple thread try to access to Critical Section it is known contention
+
+- High Contention -> Low Throughput -> Less works get done
+
+## Locks-free programming
+> Atomic Operation happen at hardware level
+
+- Atomic Integer uses Lock Free Programming
+- It depends on hardware support
 
