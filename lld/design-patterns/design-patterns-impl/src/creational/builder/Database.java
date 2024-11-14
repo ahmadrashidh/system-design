@@ -1,5 +1,7 @@
 package creational.builder;
 
+import javax.xml.crypto.Data;
+
 public class Database {
     private String name;
     private String username;
@@ -16,59 +18,53 @@ public class Database {
     // Step 1: Static Inner Class
 
     public static class Builder{
-        // Step 2: Copy all the fields from outer class
-        private String name;
-        private String username;
-        private String password;
-        private Integer port;
-        private DatabaseType dbType;
-        private Boolean isCompressed;
+        // Step 2: Copy all the fields from outer class using duplication (to avoid forgetting copying fields or number of fields is very high)
+        private Database db;
 
+        public Builder(){
+            this.db = new Database();
+        }
         // Step 3: Create setters for Builder
 
         // Fluent interfaces
         public Builder setName(String name) {
-            this.name = name;
+            db.name = name;
             return this;
         }
 
         public Builder setPassword(String password) {
-            this.password = password;
+            db.password = password;
             return this;
         }
 
         public Builder withCredentials(String username, String password) {
-            this.username = password;
-            this.password = password;
+            db.username = password;
+            db.password = password;
             return this;
         }
 
         public Builder setPort(Integer port) {
-            this.port = port;
+            db.port = port;
             return this;
         }
 
         public Builder setDbType(DatabaseType dbType) {
-            this.dbType = dbType;
+            db.dbType = dbType;
             return this;
         }
 
         public Builder mysql() {
-            this.dbType = DatabaseType.MY_SQL;
+            db.dbType = DatabaseType.MY_SQL;
             return this;
         }
 
         public Builder compressed() {
-            isCompressed = true;
+            db.isCompressed = true;
             return this;
         }
 
         public boolean validate(){
-            if(dbType == DatabaseType.MY_SQL && port != 3306){
-                return false;
-            }
-
-            return true;
+            return db.dbType != DatabaseType.MY_SQL || db.port == 3306;
         }
 
         public Database build(){
@@ -77,14 +73,18 @@ public class Database {
             if(!isValid)
                 throw new IllegalArgumentException("Invalid Input");
 
-            Database db = new Database();
-            db.name = this.name;
-            db.username = this.username;
-            db.password = this.password;
-            db.port = this.port;
-            db.dbType = this.dbType;
-            db.isCompressed = this.isCompressed;
-            return db;
+            Database newDb = new Database();
+            newDb.name = db.name;
+            newDb.username = db.username;
+            newDb.password = db.password;
+            newDb.port = db.port;
+            newDb.dbType = db.dbType;
+            newDb.isCompressed = db.isCompressed;
+
+            // clean duplicate db
+            db = null;
+
+            return newDb;
         }
     }
 
